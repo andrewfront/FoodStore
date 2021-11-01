@@ -1,10 +1,18 @@
-// $title: #363838;
-// $default: #5A5A5A;
-// %title-font {
-//     font-family: 'Montserrat', sans-serif;
-//     font-weight: 700;
-// }
-
+$black: #000000;
+$white: #ffffff;
+$orangebtn: #FF715B;
+$pink: #FDEFFC;
+$pinkbtn: #FFC7C7;
+$text: #2A2A2A;
+$subtext: #999999;
+%main-font {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+%black-font {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+}
 
 // @function max($numbers...) {
 //     @return m#{a}x(#{$numbers});

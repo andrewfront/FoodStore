@@ -1,0 +1,99 @@
+.header__line {
+    background-color: $text;
+
+    .scroll-container {
+        overflow: hidden;
+    }
+
+    &-subline {
+        color: $white;
+        font-size: 12px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transform: translateX(100%);
+        animation: scroll-container 30s linear infinite;
+    }
+
+    &-email {
+        padding-left: 36px;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            color: $orangebtn;
+        }
+
+        &:hover svg {
+            fill: $orangebtn;
+        }
+
+        svg {
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 25px;
+            height: 24px;
+            fill: $white;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+
+    &-shipping {
+        display: inline-block;
+        margin-left: 30px;
+    }
+
+    &-social a {
+        margin: 0 10px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &-social a svg {
+        width: 18px;
+        height: 18px;
+        fill: $white;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            fill: $orangebtn;
+        }
+    }
+}
+
+@keyframes scroll-container {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@media (max-width: 760px) {
+.header__line-shipping {
+    display: none;
+}
+.header__line-discount {
+    display: none;
+}
+}
+@media (max-width: 420px) {
+    .header__line-social a {
+        margin: 0 5px;
+    }
+    .mailsvg {
+        display: none;
+    }
+    .header__line-email {
+        padding-left: 0;
+    }
+    .scroll-container {
+        padding: 0 5px;
+    }
+    }
