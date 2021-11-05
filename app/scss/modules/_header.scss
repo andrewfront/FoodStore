@@ -1,6 +1,6 @@
 .header__line {
     background-color: $text;
-
+    z-index: 3;
     .scroll-container {
         overflow: hidden;
     }

@@ -86,6 +86,107 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./app/js/modules/burger.js":
+/*!**********************************!*\
+  !*** ./app/js/modules/burger.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const burger = () => {
+  const burgerBtn = document.querySelector('.hamburger');
+  const navBurger = document.querySelector('.nav');
+  const navBurgerBtn = document.querySelectorAll('.header__nav-item');
+  burgerBtn.addEventListener('click', () => {
+    burgerBtn.classList.toggle('open');
+
+    if (burgerBtn.classList.contains('open')) {
+      navBurger.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    } else {
+      navBurger.classList.remove('active');
+      document.body.style.overflow = ' ';
+    }
+  });
+  navBurgerBtn.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      navBurger.classList.remove('active');
+      burgerBtn.classList.remove('open');
+    });
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (burger);
+
+/***/ }),
+
+/***/ "./app/js/modules/lazy.js":
+/*!********************************!*\
+  !*** ./app/js/modules/lazy.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const lazy = () => {
+  const lazyImages = document.querySelectorAll('img[data-src]');
+  const windowHeight = document.documentElement.clientHeight;
+  let lazyImagesPositions = [];
+
+  if (lazyImages.length > 0) {
+    lazyImages.forEach(img => {
+      if (img.dataset.src) {
+        lazyImagesPositions.push(img.getBoundingClientRect().top + pageYOffset);
+        lazyScrollCheck();
+      }
+    });
+  }
+
+  window.addEventListener('scroll', lazyScroll);
+
+  function lazyScroll() {
+    if (document.querySelectorAll('img[data-src]').length > 0) {
+      lazyScrollCheck();
+    }
+  }
+
+  function lazyScrollCheck() {
+    let imgIndex = lazyImagesPositions.findIndex(item => pageYOffset > item - windowHeight);
+
+    if (imgIndex >= 0) {
+      if (lazyImages[imgIndex].dataset.src) {
+        lazyImages[imgIndex].src = lazyImages[imgIndex].dataset.src;
+        lazyImages[imgIndex].removeAttribute('data-src');
+      }
+
+      delete lazyImagesPositions[imgIndex];
+    }
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (lazy);
+
+/***/ }),
+
+/***/ "./app/js/modules/tabs.js":
+/*!********************************!*\
+  !*** ./app/js/modules/tabs.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const tabs = () => {};
+
+/* harmony default export */ __webpack_exports__["default"] = (tabs);
+
+/***/ }),
+
 /***/ "./app/js/script.js":
 /*!**************************!*\
   !*** ./app/js/script.js ***!
@@ -97,9 +198,20 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nodelist_foreach_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nodelist-foreach-polyfill */ "./node_modules/nodelist-foreach-polyfill/index.js");
 /* harmony import */ var nodelist_foreach_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nodelist_foreach_polyfill__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/burger */ "./app/js/modules/burger.js");
+/* harmony import */ var _modules_lazy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/lazy */ "./app/js/modules/lazy.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/tabs */ "./app/js/modules/tabs.js");
 __webpack_require__(/*! es6-promise-polyfill */ "./node_modules/es6-promise-polyfill/promise.js");
 
 
+
+
+
+window.addEventListener('DOMContentLoaded', e => {
+  Object(_modules_burger__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  Object(_modules_lazy__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
+});
 
 /***/ }),
 
