@@ -1,0 +1,31 @@
+.reviews {
+    margin-bottom: 32px;
+    &__slider {
+        overflow-x: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+&__slide {
+    padding: 20px;
+    background-color: $pink;
+    border-radius: 15px;
+    max-width: 270px;
+    width: 100%;
+}
+&__img {
+    margin: 0 auto 12px;
+}
+&__name {
+    margin: 0 auto;
+    max-width: 230px;
+    width: 100%;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 6px 45px;
+    font-size: 16px;
+    line-height: 50px;
+    color: $text;
+    background-color: $white;
+}
+}

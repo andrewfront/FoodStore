@@ -1,4 +1,5 @@
 .products {
+    margin-bottom: 12px;
     &__tabcontainer {
         display: flex;
         align-items: center;
@@ -19,12 +20,7 @@
         font-size: 16px;
         line-height: 36px;
         color: $subtext;
-        transition: all 0.3s ease-in-out;
-
-        &:hover {
-            color: $orangebtn;
-            cursor: pointer;
-        }
+        cursor: pointer;
     }
 
     &__tabcontent {
@@ -108,11 +104,15 @@
 
 @media (max-width: 1071px) {
     .products__tabitems {
+        margin-bottom: 20px;
         max-width: 100%;
         padding: 10px;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+    }
+    .products__tabcontent {
+       border-radius: 15px;
     }
     .products__btn__item {
         margin: 0 10px;

@@ -1,0 +1,58 @@
+.timer {
+    margin-bottom: 31px;
+
+    &__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    &__title {
+        line-height: 30px;
+        color: $black;
+        font-weight: 900;
+    }
+
+    .timer__common {
+        display: inline-block;
+        font-size: 30px;
+        line-height: 30px;
+        color: $black;
+        font-weight: 700;
+
+        span {
+            margin: 0 10px;
+            color: $black;
+            font-size: 20px;
+            color: $orangebtn;
+        }
+    }
+}
+
+@media (max-width: 865px) {
+    .timer__title {
+        font-weight: 400;
+    }
+
+    .timer .timer__common {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 704px) {
+    .timer .timer__common {
+        font-size: 16px;
+    }
+
+    .timer .timer__common span {
+        margin: 0 2px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 581px) {
+    .timer__inner {
+        display: block;
+        text-align: center;
+    }
+}
