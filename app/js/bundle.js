@@ -123,6 +123,42 @@ const burger = () => {
 
 /***/ }),
 
+/***/ "./app/js/modules/filtermenu.js":
+/*!**************************************!*\
+  !*** ./app/js/modules/filtermenu.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const filtermenu = () => {
+  function filterProducts() {
+    const menuBtns = document.querySelectorAll('.menu__btn');
+    const menuItems = [...document.querySelectorAll('.menu__item')];
+    menuBtns.forEach(btn => {
+      btn.addEventListener('click', e => {
+        let btnCategory = e.currentTarget.dataset.id;
+        menuItems.forEach(elem => {
+          elem.classList.remove('.hideItem');
+          elem.classList.add('showItem', 'fadeIn');
+
+          if (!elem.classList.contains(btnCategory) && btnCategory !== 'all') {
+            elem.classList.add('hideItem');
+            elem.classList.remove('showItem', 'fadeIn');
+          }
+        });
+      });
+    });
+  }
+
+  filterProducts();
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (filtermenu);
+
+/***/ }),
+
 /***/ "./app/js/modules/lazy.js":
 /*!********************************!*\
   !*** ./app/js/modules/lazy.js ***!
@@ -229,6 +265,92 @@ const slider = () => {
     autoplay(true);
   });
   autoplay(true);
+  var goodsSlider = new keen_slider__WEBPACK_IMPORTED_MODULE_0__["default"]("#goodsslider", {
+    controls: false,
+    vertical: true,
+    spacing: 20,
+    slidesPerView: 3,
+    created: function (instance) {
+      document.getElementById("arrow-left").addEventListener("click", function () {
+        instance.prev();
+      });
+      document.getElementById("arrow-right").addEventListener("click", function () {
+        instance.next();
+      });
+      updateClasses(instance);
+    },
+
+    slideChanged(instance) {
+      updateClasses(instance);
+    }
+
+  });
+
+  function updateClasses(instance) {
+    var slide = instance.details().relativeSlide;
+    var arrowLeft = document.querySelector(".goods__arrow-left--first");
+    var arrowRight = document.querySelector(".goods__arrow-right--first");
+    slide === 0 ? arrowLeft.classList.add("arrow--disabled") : arrowLeft.classList.remove("arrow--disabled");
+    slide === instance.details().size - 1 ? arrowRight.classList.add("arrow--disabled") : arrowRight.classList.remove("arrow--disabled");
+  }
+
+  var goodsSliderSecond = new keen_slider__WEBPACK_IMPORTED_MODULE_0__["default"]("#goodsslider-second", {
+    controls: false,
+    vertical: true,
+    spacing: 20,
+    slidesPerView: 3,
+    created: function (instance) {
+      document.getElementById("prev").addEventListener("click", function () {
+        instance.prev();
+      });
+      document.getElementById("next").addEventListener("click", function () {
+        instance.next();
+      });
+      updateClasses(instance);
+    },
+
+    slideChanged(instance) {
+      updateClasses(instance);
+    }
+
+  });
+
+  function updateClasses(instance) {
+    var slide = instance.details().relativeSlide;
+    var arrowLeft = document.querySelector(".goods__arrow-left--second");
+    var arrowRight = document.querySelector(".goods__arrow-right--second");
+    slide === 0 ? arrowLeft.classList.add("arrow--disabled") : arrowLeft.classList.remove("arrow--disabled");
+    slide === instance.details().size - 1 ? arrowRight.classList.add("arrow--disabled") : arrowRight.classList.remove("arrow--disabled");
+  }
+
+  var goodsSliderThird = new keen_slider__WEBPACK_IMPORTED_MODULE_0__["default"]("#goodsslider-third", {
+    controls: false,
+    vertical: true,
+    spacing: 20,
+    slidesPerView: 3,
+    created: function (instance) {
+      document.getElementById("prev-arrow").addEventListener("click", function () {
+        instance.prev();
+      });
+      document.getElementById("next-arrow").addEventListener("click", function () {
+        instance.next();
+      });
+      updateClasses(instance);
+    },
+
+    slideChanged(instance) {
+      updateClasses(instance);
+    }
+
+  });
+
+  function updateClasses(instance) {
+    var slide = instance.details().relativeSlide;
+    var arrowLeft = document.getElementById("arrow-left");
+    var arrowRight = document.getElementById("arrow-right");
+    slide === 0 ? arrowLeft.classList.add("arrow--disabled") : arrowLeft.classList.remove("arrow--disabled");
+    slide === instance.details().size - 1 ? arrowRight.classList.add("arrow--disabled") : arrowRight.classList.remove("arrow--disabled");
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (slider);
@@ -365,7 +487,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/tabs */ "./app/js/modules/tabs.js");
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/slider */ "./app/js/modules/slider.js");
 /* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./app/js/modules/timer.js");
+/* harmony import */ var _modules_filtermenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/filtermenu */ "./app/js/modules/filtermenu.js");
 __webpack_require__(/*! es6-promise-polyfill */ "./node_modules/es6-promise-polyfill/promise.js");
+
 
 
 
@@ -379,6 +503,7 @@ window.addEventListener('DOMContentLoaded', e => {
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_slider__WEBPACK_IMPORTED_MODULE_4__["default"])();
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])();
+  Object(_modules_filtermenu__WEBPACK_IMPORTED_MODULE_6__["default"])();
 });
 
 /***/ }),

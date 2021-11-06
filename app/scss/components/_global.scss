@@ -23,3 +23,17 @@ body {
     margin: 0 auto;
     padding: 0 15px;
 }
+.title {
+    margin-bottom: 26px;
+    font-size: 34px;
+    line-height: 50px;
+    color: $text;
+    text-align: center;
+}
+.title__line {
+    display: block;
+    margin: 0 auto;
+    width: 80px;
+    height: 4px;
+    background-color: $orangebtn;
+}

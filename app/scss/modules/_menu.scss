@@ -1,0 +1,75 @@
+.menu {
+margin-bottom: 101px;
+&__btn-container {
+    margin-bottom: 39px;
+    text-align: center;
+   margin-top: 40px;
+}
+&__btn {
+    margin: 0 10px;
+    background-color: transparent;
+    border: none;
+    line-height: 36px;
+    color: $subtext;
+    cursor: pointer;
+    &:active {
+        color: $orangebtn;
+    }
+}
+&__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    justify-items: center;
+}
+&__item {
+    text-align: center;
+    margin-bottom: 20px;
+    max-width: 270px;
+    background-color: $pink;
+    padding: 24px 20px;
+    border-radius: 15px;
+}
+&__img {
+    margin-bottom: 17px;
+    width: 230px;
+    height: 179px;
+}
+&__content {
+    margin-bottom: 32px;
+    color: $black;
+    line-height: 30px;
+}
+&__addtocart {
+    line-height: 30px;
+    padding: 5px 54px;
+    background-color: $orangebtn;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        background-color: #f05941;
+    }
+}
+}
+.activeBtn {
+    color: $orangebtn;
+}
+.hideItem {
+    display: none;
+}
+.showItem {
+ display: block;
+}
+.fadeIn {
+    animation-duration: 1s;
+    animation-name: fade-in;
+}
+@keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
