@@ -9,7 +9,7 @@ burgerBtn.addEventListener('click', () => {
         document.body.style.overflow = 'hidden'
     } else {
         navBurger.classList.remove('active')
-        document.body.style.overflow = ' '
+        document.body.style.overflow = ''
     }
 })
 navBurgerBtn.forEach(btn => {
