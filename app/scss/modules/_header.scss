@@ -1,6 +1,6 @@
 .header__line {
     background-color: $text;
-    z-index: 3;
+    z-index: 1;
     .scroll-container {
         overflow: hidden;
     }
@@ -76,7 +76,7 @@
     }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 803px) {
 .header__line-shipping {
     display: none;
 }

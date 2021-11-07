@@ -12,7 +12,8 @@ margin-bottom: 101px;
     line-height: 36px;
     color: $subtext;
     cursor: pointer;
-    &:active {
+    transition: all 0.3s ease-in-out;
+    &:hover {
         color: $orangebtn;
     }
 }

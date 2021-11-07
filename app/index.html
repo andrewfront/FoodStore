@@ -54,7 +54,7 @@
             </defs>
     </symbol>
 </svg>
-<div class="header__line">
+<div class="header__line" id="home">
     <div class="container scroll-container">
         <div class="header__line-subline">
     <div class="header__line-mail">
@@ -116,7 +116,7 @@
             <div class="department__info">
                 <div class="department__icon"><svg><use xlink:href="#call"></use></svg></div>
 <div class="department__info-content">
-                <a href="tel:+100000000" class="department__tel">+1 00.000.000</a>
+                <a href="tel:+100000000" class="department__tel">+93 00.000.000</a>
                 <div class="department__schedule">support 24/7 time</div>
             </div>
             </div>
@@ -295,7 +295,7 @@
 </div>
     </div>
 </section>
-            <div class="timer">
+            <div class="timer" id="pages">
     <div class="container">
         <div class="timer__inner">
             <p class="timer__title">DISCOUNTS EXPIRE</p>
@@ -495,7 +495,7 @@
 </div>
     </div>
 </div>
-            <div class="menu">
+            <section class="menu" id="shop">
     <div class="container">
         <h4 class="menu__title title">Products</h4>
         <span class="title__line"></span>
@@ -573,8 +573,8 @@
                 </div>
             </div>
     </div>
-</div>
-            <div class="blog">
+</section>
+            <div class="blog" id="blog">
     <div class="container">
         <h4 class="blog__title title">From The Blog</h4>
         <span class="title__line"></span>
@@ -611,14 +611,14 @@
     </div>
 </div>
         </main>
-        <footer class="footer">
+        <footer class="footer" id="contact">
     <div class="container">
         <div class="footer__inner">
             <div class="footer__content">
                 <img class="footer__logo" data-src="images/headermenu/logo.png" src="images/plug.png"  alt="logo">
                 <div class="footer__address">Address: New York</div>
                 <div class="footer__social">
-                    <a href="tel:+100000000" class="footer__phone">Phone: +1 00.000.000</a>
+                    <a href="tel:+9300000000" class="footer__phone">Phone: +93 00.000.000</a>
                     <div class="footer__icons">
                         <a class="footer__social-icon" href="#"><svg><use xlink:href="#telegram"></use></svg></a>
                         <a class="footer__social-icon" href="#"><svg><use xlink:href="#linkedin"></use></svg></a>
@@ -637,6 +637,39 @@
         <div class="footer__copyright">Made by | Andrew <span>&#128522;</span></div>
     </div>
 </footer>
+        <div class="cart">
+<div class="cart__overlay">
+    <img src="images/cart/close.svg" alt="close" class="cart__close">
+    <div class="cart__content">
+        <p class="cart__text">Your cart is empty</p>
+        <div class="cart__item">
+        <img src="images/cart/img1.jpg" alt="cart" class="cart__image">
+        <div class="cart__info">
+            <div class="cart__product-title">Bananas</div>
+            <div class="cart__product-price">40.00$</div>
+            <div class="cart__product-sum">
+                <img src="images/cart/decrease.svg" alt="cart" class="cart__product-decrease">
+                <div class="cart__product-number">1</div>
+                <img src="images/cart/increase.svg" alt="cart" class="cart__product-increase">
+            </div>
+            <div class="cart__product-remove">remove</div>
+        </div>
+    </div>
+    </div>
+    <div class="cart__footer">
+        <div class="cart__footer-faq">
+            <div class="cart__footer-amount">Amount: <span class="amount">1</span> </div>
+            <div class="cart__footer-total">Total:<span>80.00$</span></div>
+        </div>
+        <form action="#" class="cart__footer-form">
+            <input type="tel" class="cart__footer-phone" name="tel" placeholder="Enter your phone">
+            <input type="text" class="cart__footer-mail" name="email" placeholder="Enter your email">
+            <button type="submit" class="cart__footer-submit">Order</button>
+        </form>
+        <button class="cart__footer-reset">Reset Cart</button>
+    </div>
+</div>
+</div>
     </div>
     <script src="js/bundle.js"></script>
 </body>

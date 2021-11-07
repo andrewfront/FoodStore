@@ -8,6 +8,8 @@ import timer from './modules/timer'
 import filtermenu from './modules/filtermenu'
 import updateYear from './modules/updateyear'
 import map from './modules/map'
+import showcart from './modules/showcart'
+import headerfixed from './modules/headerfixed'
 window.addEventListener('DOMContentLoaded', (e) => {
     burger()
     lazy()
@@ -17,4 +19,6 @@ window.addEventListener('DOMContentLoaded', (e) => {
     filtermenu()
     updateYear()
     map()
+    showcart()
+    headerfixed()
 })
