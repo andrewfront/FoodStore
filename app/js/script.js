@@ -6,6 +6,8 @@ import tabs from './modules/tabs'
 import slider from './modules/slider'
 import timer from './modules/timer'
 import filtermenu from './modules/filtermenu'
+import updateYear from './modules/updateyear'
+import map from './modules/map'
 window.addEventListener('DOMContentLoaded', (e) => {
     burger()
     lazy()
@@ -13,4 +15,6 @@ window.addEventListener('DOMContentLoaded', (e) => {
     slider()
     timer()
     filtermenu()
+    updateYear()
+    map()
 })

@@ -208,6 +208,21 @@ const lazy = () => {
 
 /***/ }),
 
+/***/ "./app/js/modules/map.js":
+/*!*******************************!*\
+  !*** ./app/js/modules/map.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const map = () => {};
+
+/* harmony default export */ __webpack_exports__["default"] = (map);
+
+/***/ }),
+
 /***/ "./app/js/modules/slider.js":
 /*!**********************************!*\
   !*** ./app/js/modules/slider.js ***!
@@ -471,6 +486,26 @@ const timer = () => {
 
 /***/ }),
 
+/***/ "./app/js/modules/updateyear.js":
+/*!**************************************!*\
+  !*** ./app/js/modules/updateyear.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const updateYear = () => {
+  const currentYear = document.querySelectorAll('.year');
+  currentYear.forEach(elem => {
+    elem.textContent = new Date().getFullYear();
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (updateYear);
+
+/***/ }),
+
 /***/ "./app/js/script.js":
 /*!**************************!*\
   !*** ./app/js/script.js ***!
@@ -488,7 +523,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/slider */ "./app/js/modules/slider.js");
 /* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./app/js/modules/timer.js");
 /* harmony import */ var _modules_filtermenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/filtermenu */ "./app/js/modules/filtermenu.js");
+/* harmony import */ var _modules_updateyear__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/updateyear */ "./app/js/modules/updateyear.js");
+/* harmony import */ var _modules_map__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/map */ "./app/js/modules/map.js");
 __webpack_require__(/*! es6-promise-polyfill */ "./node_modules/es6-promise-polyfill/promise.js");
+
+
 
 
 
@@ -504,6 +543,8 @@ window.addEventListener('DOMContentLoaded', e => {
   Object(_modules_slider__WEBPACK_IMPORTED_MODULE_4__["default"])();
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])();
   Object(_modules_filtermenu__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  Object(_modules_updateyear__WEBPACK_IMPORTED_MODULE_7__["default"])();
+  Object(_modules_map__WEBPACK_IMPORTED_MODULE_8__["default"])();
 });
 
 /***/ }),

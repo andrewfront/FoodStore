@@ -1,0 +1,121 @@
+.footer {
+    background-color: $pink;
+    padding: 62px 0 19px;
+&__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+&__content {
+    max-width: 461px;
+}
+&__logo {
+    margin-bottom: 40px;
+}
+&__address {
+    font-size: 14px;
+line-height: 30px;
+}
+&__social {
+    max-width: 326px;
+}
+&__social {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+&__social-icon svg {
+    margin: 0 5px;
+    width: 18px;
+    height: 18px;
+    fill: $black;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        fill: $orangebtn;
+    }
+}
+&__phone {
+    font-size: 14px;
+    line-height: 30px;
+    color: $black;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        color: $orangebtn;
+    }
+}
+&__mail {
+    margin-bottom: 37px;
+    font-size: 14px;
+    line-height: 30px;
+    color: $black;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        color: $orangebtn;
+    }
+}
+&__form {
+    display: flex;
+    align-items: center;
+}
+&__input {
+    max-width: 287px;
+    width: 100%;
+    padding: 13px 10px 13px 30px;
+    border: none;
+    &::placeholder {
+        font-size: 14px;
+        line-height: 21px;
+        color: #757575;
+    }
+}
+&__submit {
+    padding: 14px 25px;
+    text-transform: uppercase;
+    width: 173px;
+    font-size: 14px;
+    line-height: 21px;
+    border: none;
+    background-color: $black;
+    color: $white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        background-color: $orangebtn;
+    }
+}
+&__map {
+    max-width: 659px;
+    width: 100%;
+    height: 261px;
+    background-color: black;
+}
+&__copyright {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 21px;
+}
+}
+@media (max-width: 1115px) {
+.footer__inner {
+    flex-direction: column;
+}
+.footer__content {
+    margin-bottom: 20px;
+}
+    }
+    @media (max-width: 464px) {
+        .footer__content {
+            width: 100%;
+        }
+.footer__form {
+    flex-direction: column;
+}
+.footer__input {
+    margin-bottom: 20px;
+    max-width: 100%;
+}
+.footer__submit {
+    width: 100%;
+}
+            }
