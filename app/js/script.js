@@ -10,6 +10,9 @@ import updateYear from './modules/updateyear'
 import map from './modules/map'
 import showcart from './modules/showcart'
 import headerfixed from './modules/headerfixed'
+import Inputmask from "inputmask"
+import sendmail from './modules/sendmail'
+import { justvalidate } from "just-validate/dist/js/just-validate";
 window.addEventListener('DOMContentLoaded', (e) => {
     burger()
     lazy()
@@ -21,4 +24,5 @@ window.addEventListener('DOMContentLoaded', (e) => {
     map()
     showcart()
     headerfixed()
+    sendmail()
 })

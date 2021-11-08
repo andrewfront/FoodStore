@@ -22,9 +22,15 @@
             <div class="cart__footer-amount">Amount: <span class="amount">1</span> </div>
             <div class="cart__footer-total">Total:<span>80.00$</span></div>
         </div>
-        <form action="#" class="cart__footer-form">
-            <input type="tel" class="cart__footer-phone" name="tel" placeholder="Enter your phone">
-            <input type="text" class="cart__footer-mail" name="email" placeholder="Enter your email">
+        <form action="mail.php" class="cart__footer-form" method="POST">
+            <input type="hidden" name="admin_email[]" value="andrew.ndrw1@gmail.com">
+            <input type="hidden" name="form_subject" value="Тема письма">
+            <label class="cart__footer-label">
+            <input type="tel" data-validate-field="tel" class="cart__footer-phone" name="tel" placeholder="Enter your phone">
+        </label>
+<label class="cart__footer-label">
+            <input type="email" data-validate-field="email" class="cart__footer-mail" name="email" placeholder="Enter your email">
+        </label>
             <button type="submit" class="cart__footer-submit">Order</button>
         </form>
         <button class="cart__footer-reset">Reset Cart</button>

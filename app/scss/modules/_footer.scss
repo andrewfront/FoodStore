@@ -58,7 +58,7 @@ line-height: 30px;
     align-items: center;
 }
 &__input {
-    max-width: 287px;
+    // max-width: 287px;
     width: 100%;
     padding: 13px 10px 13px 30px;
     border: none;
@@ -110,6 +110,12 @@ line-height: 30px;
         }
 .footer__form {
     flex-direction: column;
+    .js-validate-error-label {
+        bottom: 4px;
+    }
+}
+.footer__label {
+    width: 100%;
 }
 .footer__input {
     margin-bottom: 20px;

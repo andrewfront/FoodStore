@@ -37,3 +37,21 @@ body {
     height: 4px;
     background-color: $orangebtn;
 }
+.footer__label {
+    position: relative;
+    .js-validate-error-label {
+        font-size: 12px;
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+    }
+}
+.cart__footer-label {
+    position: relative;
+    .js-validate-error-label {
+        font-size: 12px;
+        position: absolute;
+        left: 0;
+        bottom: -35px;
+    }
+}
