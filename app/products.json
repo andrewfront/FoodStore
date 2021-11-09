@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+      "sys": { "id": "1"},
+      "fields": {
+        "category": "fruit",
+        "title": "Bunch of bananas",
+        "price": 10.99,
+        "image": { "fields": { "file": { "url": "./images/menu/fruit/img1.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "2"},
+      "fields": {
+        "category": "fruit",
+        "title": "Mellon fruit",
+        "price": 12.99,
+        "image": { "fields": { "file": { "url": "images/menu/fruit/img2.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "3"},
+      "fields": {
+        "category": "fruit",
+        "title": "Fresh apricot",
+        "price": 12.99,
+        "image": { "fields": { "file": { "url": "images/menu/fruit/img3.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "4"},
+      "fields": {
+        "category": "fruit",
+        "title": "Red apple",
+        "price": 22.99,
+        "image": { "fields": { "file": { "url": "images/menu/fruit/img4.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "5"},
+      "fields": {
+        "category": "fastfood",
+        "title": "Bunch of lettuce",
+        "price": 88.99,
+        "image": { "fields": { "file": { "url": "images/menu/fastfood/img1.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "6"},
+      "fields": {
+        "category": "vegetables",
+        "title": "Cucumber",
+        "price": 32.99,
+        "image": { "fields": { "file": { "url": "images/menu/vegetables/img1.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "7"},
+      "fields": {
+        "category": "meat",
+        "title": "Beef steak",
+        "price": 45.99,
+        "image": { "fields": { "file": { "url": "images/menu/meat/img1.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "8"},
+      "fields": {
+        "category": "vegetables",
+        "title": "raw broccoli",
+        "price": 33.99,
+        "image": { "fields": { "file": { "url": "images/menu/vegetables/img2.jpg" } } }
+      }
+    }
+  ]
+}

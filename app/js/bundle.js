@@ -123,39 +123,281 @@ const burger = () => {
 
 /***/ }),
 
-/***/ "./app/js/modules/filtermenu.js":
-/*!**************************************!*\
-  !*** ./app/js/modules/filtermenu.js ***!
-  \**************************************/
+/***/ "./app/js/modules/getmenu.js":
+/*!***********************************!*\
+  !*** ./app/js/modules/getmenu.js ***!
+  \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-const filtermenu = () => {
-  function filterProducts() {
-    const menuBtns = document.querySelectorAll('.menu__btn');
-    const menuItems = [...document.querySelectorAll('.menu__item')];
-    menuBtns.forEach(btn => {
-      btn.addEventListener('click', e => {
-        let btnCategory = e.currentTarget.dataset.id;
-        menuItems.forEach(elem => {
-          elem.classList.remove('.hideItem');
-          elem.classList.add('showItem', 'fadeIn');
+const getmenu = () => {
+  const cartItself = document.querySelector('.cart');
+  const cardCenter = document.querySelector('.menu__inner');
+  let cartAmount = document.querySelector('.amount');
+  let cartTotal = document.querySelector('.total');
+  let headerSum = document.querySelector('.headersum');
+  const cartContent = document.querySelector('.cart__content');
+  const cartOverlay = document.querySelector('.cart__overlay');
+  const clearCart = document.querySelector('.cart__footer-reset');
+  const headerCartBtn = document.querySelector('.header__cart-center');
+  const cartText = document.querySelector('.cart__text');
+  let cartCounter = document.querySelector('.header__cart-count');
+  let cart = [];
+  let buttonsDOM = [];
+  let productArray = [];
 
-          if (!elem.classList.contains(btnCategory) && btnCategory !== 'all') {
-            elem.classList.add('hideItem');
-            elem.classList.remove('showItem', 'fadeIn');
-          }
+  class Products {
+    async getProducts() {
+      try {
+        let result = await fetch('products.json');
+        let data = await result.json();
+        let products = data.items;
+        products = products.map(item => {
+          const {
+            id
+          } = item.sys;
+          const {
+            category,
+            title,
+            price
+          } = item.fields;
+          const image = item.fields.image.fields.file.url;
+          return {
+            category,
+            title,
+            price,
+            id,
+            image
+          };
         });
-      });
-    });
+        return products;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
   }
 
-  filterProducts();
+  class UI {
+    displayProducts(products) {
+      let result = '';
+      products.forEach(product => {
+        result += `
+            <div class="menu__item ${product.category}">
+            <img class="menu__img" data-src=${product.image} src="images/plug.png"  alt="menu">
+            <div class="menu__content">
+                <div class="menu__name">${product.title}</div>
+                <div class="menu__price">$${product.price}</div>
+            </div>
+            <button class="menu__addtocart" data-id=${product.id}>Add To Cart</button>
+        </div>
+            `;
+      });
+      cardCenter.innerHTML = result;
+    }
+
+    filterProducts() {
+      const menuBtns = document.querySelectorAll('.menu__btn');
+      const menuItems = [...document.querySelectorAll('.menu__item')];
+      menuBtns.forEach(btn => {
+        btn.addEventListener('click', e => {
+          let btnCategory = e.currentTarget.dataset.id;
+          menuItems.forEach(elem => {
+            elem.classList.remove('.hideItem');
+            elem.classList.add('showItem', 'fadeIn');
+
+            if (!elem.classList.contains(btnCategory) && btnCategory !== 'all') {
+              elem.classList.add('hideItem');
+              elem.classList.remove('showItem', 'fadeIn');
+            }
+          });
+        });
+      });
+    }
+
+    lazyLoadImages() {
+      const lazyImages = document.querySelectorAll('img[data-src]');
+      const windowHeight = document.documentElement.clientHeight;
+      let lazyImagesPositions = [];
+
+      if (lazyImages.length > 0) {
+        lazyImages.forEach(img => {
+          if (img.dataset.src) {
+            lazyImagesPositions.push(img.getBoundingClientRect().top + pageYOffset);
+            lazyScrollCheck();
+          }
+        });
+      }
+
+      window.addEventListener('scroll', lazyScroll);
+
+      function lazyScroll() {
+        if (document.querySelectorAll('img[data-src]').length > 0) {
+          lazyScrollCheck();
+        }
+      }
+
+      function lazyScrollCheck() {
+        let imgIndex = lazyImagesPositions.findIndex(item => pageYOffset > item - windowHeight);
+
+        if (imgIndex >= 0) {
+          if (lazyImages[imgIndex].dataset.src) {
+            lazyImages[imgIndex].src = lazyImages[imgIndex].dataset.src;
+            lazyImages[imgIndex].removeAttribute('data-src');
+          }
+
+          delete lazyImagesPositions[imgIndex];
+        }
+      }
+    }
+
+    getBagButtons() {
+      const cardBtns = [...document.querySelectorAll('.menu__addtocart')];
+      buttonsDOM = cardBtns;
+      cardBtns.forEach(button => {
+        let id = button.dataset.id;
+        let inCart = cart.find(item => item.id === id);
+
+        if (inCart) {
+          button.innerText = 'In Cart';
+          button.disabled = true;
+        }
+
+        button.addEventListener('click', e => {
+          e.target.innerText = 'In Cart';
+          button.disabled = true; //get product from products
+
+          let cartItem = { ...Storage.getProduct(id),
+            amount: 1
+          };
+          cart = [...cart, cartItem];
+          Storage.saveCart(cart);
+          this.setCartValues(cart);
+          this.addCartItem(cartItem); //add product to the cart
+          //save cart in local storage
+          //set cart values
+          //display cart item
+          //show the cart
+        });
+      });
+    }
+
+    setCartValues(cart) {
+      let tempTotal = 0;
+      let itemsTotal = 0;
+      cart.map(item => {
+        tempTotal += item.price * item.amount;
+        itemsTotal += item.amount;
+      });
+      cartTotal.innerText = parseFloat(tempTotal.toFixed(2));
+      headerSum.innerText = parseFloat(tempTotal.toFixed(2));
+      cartAmount.innerText = itemsTotal;
+      cartCounter.innerText = itemsTotal;
+
+      if (cartCounter.innerText > 0) {
+        cartText.style.display = 'none';
+      } else {
+        cartText.style.display = 'block';
+      }
+    }
+
+    addCartItem(item) {
+      cartContent.innerHTML += `
+<div class="cart__item">
+<img src=${item.image} alt="cart" class="cart__image">
+<div class="cart__info">
+    <div class="cart__product-title">${item.title}</div>
+    <div class="cart__product-price">${item.price}$</div>
+    <div class="cart__product-sum">
+        <img src="images/cart/decrease.svg" alt="cart" class="cart__product-decrease" data-id=${item.id}>
+        <div class="cart__product-number">1</div>
+        <img src="images/cart/increase.svg" alt="cart" class="cart__product-increase" data-id=${item.id}>
+    </div>
+    <div class="cart__product-remove" data-id=${item.id}>remove</div>
+</div>
+</div>
+`;
+    }
+
+    setupAPP() {
+      cart = Storage.getCart();
+      this.setCartValues(cart);
+      this.populateCart(cart);
+    }
+
+    populateCart() {
+      cart.forEach(item => this.addCartItem(item));
+    }
+
+    removeItem(id) {
+      cart = cart.filter(item => item.id !== id);
+      this.setCartValues(cart);
+      Storage.saveCart(cart);
+      let button = this.getSingleButton(id);
+      console.log(button);
+      button.disabled = false;
+      button.innerText = 'Add to cart';
+    }
+
+    clearCart() {
+      let cartItems = cart.map(item => item.id);
+      cartItems.forEach(id => this.removeItem(id));
+
+      while (cartContent.children.length > 0) {
+        cartContent.removeChild(cartContent.children[0]);
+      }
+    }
+
+    getSingleButton(id) {
+      return buttonsDOM.find(button => button.dataset.id === id);
+    }
+
+    cartLogic() {
+      clearCart.addEventListener('click', e => {
+        e.preventDefault();
+        this.clearCart();
+      });
+    }
+
+  }
+
+  class Storage {
+    static saveProducts(products) {
+      localStorage.setItem('products', JSON.stringify(products));
+    }
+
+    static getProduct(id) {
+      let products = JSON.parse(localStorage.getItem('products'));
+      return products.find(product => product.id === id);
+    }
+
+    static saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    static getCart() {
+      return localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+    }
+
+  }
+
+  const ui = new UI();
+  const products = new Products();
+  ui.setupAPP();
+  products.getProducts().then(products => {
+    ui.displayProducts(products);
+    ui.filterProducts(products);
+    ui.lazyLoadImages(products);
+    Storage.saveProducts(products);
+  }).then(() => {
+    ui.getBagButtons();
+    ui.cartLogic();
+  });
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (filtermenu);
+/* harmony default export */ __webpack_exports__["default"] = (getmenu);
 
 /***/ }),
 
@@ -278,54 +520,51 @@ const lazy = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-const map = () => {
-  function loadScript() {
-    const elem = document.createElement('script');
-    elem.type = 'text/javascript';
-    elem.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDGgGu0VTYTQAtYvAdDC0Sj1N9OYnlsHgw&callback=initMap';
-    document.querySelectorAll('body')[0].append(elem);
-  }
-
-  function initMap() {
-    const myLatLng = {
-      lat: 41.387642,
-      lng: 2.173819
-    };
-    const map = new google.maps.Map(document.getElementById("map"), {
-      mapId: "83455f3bf713e66e",
-      zoom: 10,
-      center: myLatLng,
-      disableDefaultUI: false,
-      scrollwheel: true,
-      zoomControl: false
-    });
-    const marker = new google.maps.Marker({
-      position: {
-        lat: 41.387642,
-        lng: 2.173819
-      },
-      map,
-      title: "Hello World!",
-      optimized: false,
-      icon: {
-        url: '../../images/location.svg',
-        scaledSize: new google.maps.Size(70, 70)
-      }
-    });
-    const infowindow = new google.maps.InfoWindow({
-      content: "thanks for click!"
-    });
-    marker.addListener("click", () => {
-      infowindow.open({
-        anchor: marker,
-        map,
-        shouldFocus: false
-      });
-    });
-  }
-
-  setTimeout(loadScript, 1000);
-  setTimeout(initMap, 2000);
+const map = () => {//     function loadScript() {
+  //         const elem = document.createElement('script');
+  //         elem.type = 'text/javascript';
+  //         elem.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDGgGu0VTYTQAtYvAdDC0Sj1N9OYnlsHgw&callback=initMap';
+  //         document.querySelectorAll('body')[0].append(elem);
+  //     }
+  //     function initMap() {
+  //         const myLatLng = {
+  //             lat: 41.387642,
+  //             lng: 2.173819
+  //         };
+  //         const map = new google.maps.Map(document.getElementById("map"), {
+  //             mapId: "83455f3bf713e66e",
+  //             zoom: 10,
+  //             center: myLatLng,
+  //             disableDefaultUI: false,
+  //             scrollwheel: true,
+  //             zoomControl: false
+  //         });
+  //         const marker = new google.maps.Marker({
+  //             position: {
+  //                 lat: 41.387642,
+  //                 lng: 2.173819
+  //             },
+  //             map,
+  //             title: "Hello World!",
+  //             optimized: false,
+  //             icon: {
+  //                 url: '../../images/location.svg',
+  //                 scaledSize: new google.maps.Size(70, 70),
+  //             }
+  //         });
+  //         const infowindow = new google.maps.InfoWindow({
+  //             content: "thanks for click!",
+  //         });
+  //         marker.addListener("click", () => {
+  //             infowindow.open({
+  //                 anchor: marker,
+  //                 map,
+  //                 shouldFocus: false,
+  //             });
+  //         });
+  //     }
+  //     setTimeout(loadScript, 1000)
+  //     setTimeout(initMap, 2000)
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (map);
@@ -454,13 +693,6 @@ const showcart = () => {
     let scrollWidth = div.offsetWidth - div.clientWidth;
     div.remove();
     return scrollWidth;
-  }
-
-  const cartText = document.querySelector('.cart__text');
-  const cartItem = document.querySelector('.cart__item');
-
-  if (cartItem) {
-    cartText.remove();
   }
 };
 
@@ -767,16 +999,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/tabs */ "./app/js/modules/tabs.js");
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/slider */ "./app/js/modules/slider.js");
 /* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./app/js/modules/timer.js");
-/* harmony import */ var _modules_filtermenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/filtermenu */ "./app/js/modules/filtermenu.js");
-/* harmony import */ var _modules_updateyear__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/updateyear */ "./app/js/modules/updateyear.js");
-/* harmony import */ var _modules_map__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/map */ "./app/js/modules/map.js");
-/* harmony import */ var _modules_showcart__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/showcart */ "./app/js/modules/showcart.js");
-/* harmony import */ var _modules_headerfixed__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/headerfixed */ "./app/js/modules/headerfixed.js");
-/* harmony import */ var inputmask__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! inputmask */ "./node_modules/inputmask/dist/inputmask.js");
-/* harmony import */ var inputmask__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(inputmask__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _modules_sendmail__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/sendmail */ "./app/js/modules/sendmail.js");
-/* harmony import */ var just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! just-validate/dist/js/just-validate */ "./node_modules/just-validate/dist/js/just-validate.js");
-/* harmony import */ var just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _modules_updateyear__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/updateyear */ "./app/js/modules/updateyear.js");
+/* harmony import */ var _modules_map__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/map */ "./app/js/modules/map.js");
+/* harmony import */ var _modules_showcart__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/showcart */ "./app/js/modules/showcart.js");
+/* harmony import */ var _modules_headerfixed__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/headerfixed */ "./app/js/modules/headerfixed.js");
+/* harmony import */ var inputmask__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! inputmask */ "./node_modules/inputmask/dist/inputmask.js");
+/* harmony import */ var inputmask__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(inputmask__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _modules_sendmail__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/sendmail */ "./app/js/modules/sendmail.js");
+/* harmony import */ var just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! just-validate/dist/js/just-validate */ "./node_modules/just-validate/dist/js/just-validate.js");
+/* harmony import */ var just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _modules_getmenu__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/getmenu */ "./app/js/modules/getmenu.js");
 __webpack_require__(/*! es6-promise-polyfill */ "./node_modules/es6-promise-polyfill/promise.js");
 
 
@@ -799,12 +1031,12 @@ window.addEventListener('DOMContentLoaded', e => {
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_slider__WEBPACK_IMPORTED_MODULE_4__["default"])();
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])();
-  Object(_modules_filtermenu__WEBPACK_IMPORTED_MODULE_6__["default"])();
-  Object(_modules_updateyear__WEBPACK_IMPORTED_MODULE_7__["default"])();
-  Object(_modules_map__WEBPACK_IMPORTED_MODULE_8__["default"])();
-  Object(_modules_showcart__WEBPACK_IMPORTED_MODULE_9__["default"])();
-  Object(_modules_headerfixed__WEBPACK_IMPORTED_MODULE_10__["default"])();
-  Object(_modules_sendmail__WEBPACK_IMPORTED_MODULE_12__["default"])();
+  Object(_modules_updateyear__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  Object(_modules_map__WEBPACK_IMPORTED_MODULE_7__["default"])();
+  Object(_modules_showcart__WEBPACK_IMPORTED_MODULE_8__["default"])();
+  Object(_modules_headerfixed__WEBPACK_IMPORTED_MODULE_9__["default"])();
+  Object(_modules_sendmail__WEBPACK_IMPORTED_MODULE_11__["default"])();
+  Object(_modules_getmenu__WEBPACK_IMPORTED_MODULE_13__["default"])();
 });
 
 /***/ }),

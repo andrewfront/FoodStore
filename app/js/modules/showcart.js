@@ -38,10 +38,5 @@ function calcScroll() {
     div.remove()
     return scrollWidth
 }
-const cartText = document.querySelector('.cart__text')
-const cartItem = document.querySelector('.cart__item')
-if (cartItem) {
-    cartText.remove()
-}
 }
 export default showcart

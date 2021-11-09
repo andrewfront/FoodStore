@@ -11,7 +11,7 @@
 
     &__overlay {
         position: relative;
-        max-width: 320px;
+        max-width: 440px;
         width: 100%;
         padding: 9px 22px 23px 22px;
         background-color: $pink;
@@ -31,9 +31,9 @@
     }
     &__text {
         position: absolute;
-        top: 50%;
+        top: 55px;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translateX(-50%);
         font-size: 16px;
     }
     &__item {
@@ -44,8 +44,13 @@
         justify-content: space-around;
         border-bottom: 1px solid $black;
     }
-
+    &__image {
+        width: 155px;
+        height: 100px;
+        object-fit: cover;
+    }
     &__info {
+        max-width: 73px;
         font-size: 16px;
         line-height: 30px;
     }

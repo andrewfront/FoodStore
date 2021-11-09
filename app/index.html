@@ -88,7 +88,7 @@
             <div class="header__cart-center">
                 <div class="header__cart"><svg><use xlink:href="#cart"></use></svg><span class="header__cart-count">0</span></div>
             </div>
-            <div class="header__cart-amount">item:<span>$150.00</span></div>
+            <div class="header__cart-amount">item:$<span class="headersum">0</span></div>
             <div class="icon nav-icon-1 hamburger">
                 <span></span>
                 <span></span>
@@ -507,7 +507,7 @@
                 <button type="button" class="menu__btn" data-id="fastfood">Fastfood</button>
             </div>
             <div class="menu__inner">
-                <div class="menu__item fruit">
+                <!-- <div class="menu__item fruit">
                     <img class="menu__img" data-src="images/menu/fruit/img1.jpg" src="images/plug.png"  alt="menu">
                     <div class="menu__content">
                         <div class="menu__name">Bunch of bananas</div>
@@ -570,7 +570,7 @@
                         <div class="menu__price">$30.00</div>
                     </div>
                     <button class="menu__addtocart">Add To Cart</button>
-                </div>
+                </div> -->
             </div>
     </div>
 </section>
@@ -645,9 +645,9 @@
         <div class="cart">
 <div class="cart__overlay">
     <img src="images/cart/close.svg" alt="close" class="cart__close">
+    <p class="cart__text">Your cart is empty</p>
     <div class="cart__content">
-        <p class="cart__text">Your cart is empty</p>
-        <div class="cart__item">
+        <!-- <div class="cart__item">
         <img src="images/cart/img1.jpg" alt="cart" class="cart__image">
         <div class="cart__info">
             <div class="cart__product-title">Bananas</div>
@@ -659,12 +659,12 @@
             </div>
             <div class="cart__product-remove">remove</div>
         </div>
-    </div>
+    </div> -->
     </div>
     <div class="cart__footer">
         <div class="cart__footer-faq">
             <div class="cart__footer-amount">Amount: <span class="amount">1</span> </div>
-            <div class="cart__footer-total">Total:<span>80.00$</span></div>
+            <div class="cart__footer-total">Total:<span class="total">80.00$</span></div>
         </div>
         <form action="mail.php" class="cart__footer-form" method="POST">
             <input type="hidden" name="admin_email[]" value="andrew.ndrw1@gmail.com">

@@ -104,11 +104,16 @@ function production() {
         .pipe(dest('dist/js'))
         .pipe(browserSync.stream())
 }
-
+function json() {
+    return src('app/products.json')
+        .pipe(dest('app'))
+        .pipe(browserSync.stream())
+}
 function watching() {
     watch(['app/layouts/**/*.html'], html)
     watch(['app/scss/**/*.scss'], styles)
     watch(['app/js/**/*.js', '!app/js/bundle.js'], scripts)
+    watch(['app/**/.json'], json)
     watch("app/*.html").on('change', browserSync.reload)
 }
 
@@ -160,6 +165,7 @@ exports.production = production
 exports.watching = watching
 exports.browsersync = browsersync
 exports.images = images
+exports.json = json
 exports.cleanDist = cleanDist
-exports.default = parallel(html, styles, scripts, watching, browsersync)
+exports.default = parallel(html, styles, scripts, json, watching, browsersync)
 exports.build = series(cleanDist, images, build, production)
