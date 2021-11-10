@@ -151,6 +151,10 @@ const fixBlock = () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const getmenu = () => {
+  const client = contentful.createClient({
+    space: "kcyqf93mctty",
+    accessToken: "CofG7jOtgR2NmxDXmMrMoBAmb_40k1uvOkx7RViybPA"
+  });
   const cartItself = document.querySelector('.cart');
   const cardCenter = document.querySelector('.menu__inner');
   let cartAmount = document.querySelector('.amount');
@@ -163,15 +167,18 @@ const getmenu = () => {
   const cartText = document.querySelector('.cart__text');
   let cartCounter = document.querySelector('.header__cart-count');
   let cart = [];
-  let buttonsDOM = [];
-  let productArray = [];
+  let buttonsDOM = []; // let productArray = [] for sending data
 
   class Products {
     async getProducts() {
       try {
-        let result = await fetch('products.json');
-        let data = await result.json();
-        let products = data.items;
+        let contentful = await client.getEntries({
+          content_type: 'yofruit'
+        }); // let result = await fetch('products.json')
+        // let data = await result.json()
+        // let products = data.items
+
+        let products = contentful.items;
         products = products.map(item => {
           const {
             id
@@ -622,51 +629,54 @@ const lazy = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-const map = () => {//     function loadScript() {
-  //         const elem = document.createElement('script');
-  //         elem.type = 'text/javascript';
-  //         elem.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDGgGu0VTYTQAtYvAdDC0Sj1N9OYnlsHgw&callback=initMap';
-  //         document.querySelectorAll('body')[0].append(elem);
-  //     }
-  //     function initMap() {
-  //         const myLatLng = {
-  //             lat: 41.387642,
-  //             lng: 2.173819
-  //         };
-  //         const map = new google.maps.Map(document.getElementById("map"), {
-  //             mapId: "83455f3bf713e66e",
-  //             zoom: 10,
-  //             center: myLatLng,
-  //             disableDefaultUI: false,
-  //             scrollwheel: true,
-  //             zoomControl: false
-  //         });
-  //         const marker = new google.maps.Marker({
-  //             position: {
-  //                 lat: 41.387642,
-  //                 lng: 2.173819
-  //             },
-  //             map,
-  //             title: "Hello World!",
-  //             optimized: false,
-  //             icon: {
-  //                 url: '../../images/location.svg',
-  //                 scaledSize: new google.maps.Size(70, 70),
-  //             }
-  //         });
-  //         const infowindow = new google.maps.InfoWindow({
-  //             content: "thanks for click!",
-  //         });
-  //         marker.addListener("click", () => {
-  //             infowindow.open({
-  //                 anchor: marker,
-  //                 map,
-  //                 shouldFocus: false,
-  //             });
-  //         });
-  //     }
-  //     setTimeout(loadScript, 1000)
-  //     setTimeout(initMap, 2000)
+const map = () => {
+  function loadScript() {
+    const elem = document.createElement('script');
+    elem.type = 'text/javascript';
+    elem.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDGgGu0VTYTQAtYvAdDC0Sj1N9OYnlsHgw&callback=initMap';
+    document.querySelectorAll('body')[0].append(elem);
+  }
+
+  function initMap() {
+    const myLatLng = {
+      lat: 41.387642,
+      lng: 2.173819
+    };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      mapId: "83455f3bf713e66e",
+      zoom: 10,
+      center: myLatLng,
+      disableDefaultUI: false,
+      scrollwheel: true,
+      zoomControl: false
+    });
+    const marker = new google.maps.Marker({
+      position: {
+        lat: 41.387642,
+        lng: 2.173819
+      },
+      map,
+      title: "Hello World!",
+      optimized: false,
+      icon: {
+        url: '../../images/location.svg',
+        scaledSize: new google.maps.Size(70, 70)
+      }
+    });
+    const infowindow = new google.maps.InfoWindow({
+      content: "thanks for click!"
+    });
+    marker.addListener("click", () => {
+      infowindow.open({
+        anchor: marker,
+        map,
+        shouldFocus: false
+      });
+    });
+  }
+
+  setTimeout(loadScript, 1000);
+  setTimeout(initMap, 2000);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (map);

@@ -1,4 +1,8 @@
 const getmenu = () => {
+    const client = contentful.createClient({
+        space: "kcyqf93mctty",
+        accessToken: "CofG7jOtgR2NmxDXmMrMoBAmb_40k1uvOkx7RViybPA"
+      });
 const cartItself = document.querySelector('.cart')
 const cardCenter = document.querySelector('.menu__inner')
 let cartAmount = document.querySelector('.amount')
@@ -12,13 +16,17 @@ const cartText = document.querySelector('.cart__text')
 let cartCounter = document.querySelector('.header__cart-count')
 let cart = []
 let buttonsDOM = []
-let productArray = []
+// let productArray = [] for sending data
 class Products {
 async getProducts() {
     try {
-        let result = await fetch('products.json')
-        let data = await result.json()
-        let products = data.items
+        let contentful = await client.getEntries({
+            content_type: 'yofruit'
+          })
+        // let result = await fetch('products.json')
+        // let data = await result.json()
+        // let products = data.items
+        let products = contentful.items
         products = products.map(item => {
             const {id} = item.sys
             const {category, title, price} = item.fields
