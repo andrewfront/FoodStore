@@ -115,11 +115,29 @@ const burger = () => {
       e.preventDefault();
       navBurger.classList.remove('active');
       burgerBtn.classList.remove('open');
+      document.body.style.overflow = '';
     });
   });
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (burger);
+
+/***/ }),
+
+/***/ "./app/js/modules/fixBlock.js":
+/*!************************************!*\
+  !*** ./app/js/modules/fixBlock.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const fixBlock = () => {
+  let paddingOffset = window.innerWidth - document.body.offsetWidth + `px`;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (fixBlock);
 
 /***/ }),
 
@@ -263,11 +281,13 @@ const getmenu = () => {
         if (inCart) {
           button.innerText = 'In Cart';
           button.disabled = true;
+          button.style.backgroundColor = '#ff715b63';
         }
 
         button.addEventListener('click', e => {
           e.target.innerText = 'In Cart';
-          button.disabled = true; //get product from products
+          button.disabled = true;
+          button.style.backgroundColor = '#ff715b63'; //get product from products
 
           let cartItem = { ...Storage.getProduct(id),
             amount: 1
@@ -298,8 +318,12 @@ const getmenu = () => {
 
       if (cartCounter.innerText > 0) {
         cartText.style.display = 'none';
+        clearCart.disabled = false;
+        clearCart.style.backgroundColor = '#000000';
       } else {
         cartText.style.display = 'block';
+        clearCart.disabled = true;
+        clearCart.style.backgroundColor = '#0000004a';
       }
     }
 
@@ -331,14 +355,53 @@ const getmenu = () => {
       cart.forEach(item => this.addCartItem(item));
     }
 
+    animateCart() {
+      const menuItem = document.querySelectorAll('.menu__item');
+      menuItem.forEach(item => {
+        let getButton = item.querySelector('.menu__addtocart');
+        getButton.addEventListener('click', e => {
+          e.preventDefault();
+          let productImage = item.querySelector(".menu__img");
+          let productImageFly = productImage.cloneNode(true);
+          let imageFlyWidth = productImage.offsetWidth;
+          let imageFlyHeight = productImage.offsetHeight;
+          let imageFlyTop = productImage.getBoundingClientRect().top;
+          let imageFlyLeft = productImage.getBoundingClientRect().left;
+          productImageFly.setAttribute('class', 'flyImage');
+          productImageFly.style.cssText = `
+                width: ${imageFlyWidth}px;
+                height: ${imageFlyHeight}px;
+                left: ${imageFlyLeft}px;
+                top: ${imageFlyTop}px;
+                `;
+          document.body.append(productImageFly);
+          const cartFlyLeft = cartCounter.getBoundingClientRect().left;
+          const cartFlyTop = cartCounter.getBoundingClientRect().top;
+          productImageFly.style.cssText = `
+                left: ${cartFlyLeft}px;
+                top: ${cartFlyTop}px;
+                width: 0px;
+                height: 0px;
+                opacity: 0;
+                `;
+          productImageFly.addEventListener('transitionend', () => {
+            if (getButton.disabled = true) {
+              productImageFly.remove();
+            }
+          });
+        });
+      });
+    }
+
     removeItem(id) {
       cart = cart.filter(item => item.id !== id);
       this.setCartValues(cart);
       Storage.saveCart(cart);
       let button = this.getSingleButton(id);
-      console.log(button);
       button.disabled = false;
       button.innerText = 'Add to cart';
+      button.style.backgroundColor = '#ff715b';
+      document.body.style.overflow = '';
     }
 
     clearCart() {
@@ -358,6 +421,44 @@ const getmenu = () => {
       clearCart.addEventListener('click', e => {
         e.preventDefault();
         this.clearCart();
+        cartItself.classList.remove('showcart');
+      });
+      cartContent.addEventListener('click', e => {
+        if (e.target.classList.contains('cart__product-increase')) {
+          let addAmount = e.target;
+          let id = addAmount.dataset.id;
+          let tempItem = cart.find(item => item.id === id);
+          tempItem.amount = tempItem.amount + 1;
+          Storage.saveCart(cart);
+          this.setCartValues(cart);
+          addAmount.previousElementSibling.innerText = tempItem.amount;
+        } else if (e.target.classList.contains('cart__product-decrease')) {
+          let lowerAmount = e.target;
+          let id = lowerAmount.dataset.id;
+          let tempItem = cart.find(item => item.id === id);
+          tempItem.amount = tempItem.amount - 1;
+          lowerAmount.nextElementSibling.innerText = tempItem.amount;
+
+          if (tempItem.amount > 0) {
+            Storage.saveCart(cart);
+            this.setCartValues(cart);
+            lowerAmount.nextElementSibling.innerText = tempItem.amount;
+          } else {
+            cartContent.removeChild(lowerAmount.parentElement.parentElement.parentElement);
+            this.removeItem(id);
+          }
+        }
+
+        if (e.target.classList.contains('cart__product-remove')) {
+          let removeItem = e.target;
+          let id = removeItem.dataset.id;
+          cartContent.removeChild(removeItem.parentElement.parentElement);
+          this.removeItem(id);
+
+          if (cartContent.children.length <= 0) {
+            cartItself.classList.remove('showcart');
+          }
+        }
       });
     }
 
@@ -388,6 +489,7 @@ const getmenu = () => {
   ui.setupAPP();
   products.getProducts().then(products => {
     ui.displayProducts(products);
+    ui.animateCart(products);
     ui.filterProducts(products);
     ui.lazyLoadImages(products);
     Storage.saveProducts(products);
@@ -653,47 +755,56 @@ const sendmail = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _fixBlock__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fixBlock */ "./app/js/modules/fixBlock.js");
+
+
 const showcart = () => {
+  const headerFixed = document.querySelector('.header');
   const cartBtn = document.querySelector('.header__cart-center');
   const cartModal = document.querySelector('.cart');
   const closeModalBtn = document.querySelector('.cart__close');
-  let scroll = calcScroll();
+  let paddingOffset = window.innerWidth - document.body.offsetWidth + `px`;
+  let calcScroll = paddingOffset;
+  let fixBlocks = document.querySelectorAll('.fix-block');
   cartBtn.addEventListener('click', () => {
     cartModal.classList.add('showcart');
     document.body.style.overflow = 'hidden';
-    document.body.style.marginRight = `${scroll}px`;
+    document.body.style.paddingRight = calcScroll;
+
+    if (headerFixed.classList.contains('fixed')) {
+      fixBlocks.forEach(el => {
+        el.style.paddingRight = calcScroll;
+      });
+    }
   });
   closeModalBtn.addEventListener('click', e => {
     cartModal.classList.remove('showcart');
     document.body.style.overflow = '';
-    document.body.style.marginRight = `0px`;
+    fixBlocks.forEach(el => {
+      el.style.paddingRight = '0';
+    });
+    document.body.style.paddingRight = '0';
   });
   cartModal.addEventListener('click', e => {
     if (e.target === cartModal) {
       cartModal.classList.remove('showcart');
       document.body.style.overflow = '';
-      document.body.style.marginRight = `0px`;
+      fixBlocks.forEach(el => {
+        el.style.paddingRight = '0';
+      });
+      document.body.style.paddingRight = '0';
     }
   });
   document.addEventListener('keydown', e => {
     if (e.code === 'Escape' && cartModal.classList.contains('showcart')) {
       cartModal.classList.remove('showcart');
       document.body.style.overflow = '';
-      document.body.style.marginRight = `0px`;
+      fixBlocks.forEach(el => {
+        el.style.paddingRight = '0';
+      });
+      document.body.style.paddingRight = '0';
     }
   });
-
-  function calcScroll() {
-    let div = document.createElement('div');
-    div.style.width = '50px';
-    div.style.height = '50px';
-    div.style.overflowY = 'scroll';
-    div.style.visibility = 'hidden';
-    document.body.appendChild(div);
-    let scrollWidth = div.offsetWidth - div.clientWidth;
-    div.remove();
-    return scrollWidth;
-  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (showcart);
@@ -1009,7 +1120,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! just-validate/dist/js/just-validate */ "./node_modules/just-validate/dist/js/just-validate.js");
 /* harmony import */ var just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(just_validate_dist_js_just_validate__WEBPACK_IMPORTED_MODULE_12__);
 /* harmony import */ var _modules_getmenu__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/getmenu */ "./app/js/modules/getmenu.js");
+/* harmony import */ var _modules_fixBlock__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./modules/fixBlock */ "./app/js/modules/fixBlock.js");
 __webpack_require__(/*! es6-promise-polyfill */ "./node_modules/es6-promise-polyfill/promise.js");
+
 
 
 
@@ -1037,6 +1150,7 @@ window.addEventListener('DOMContentLoaded', e => {
   Object(_modules_headerfixed__WEBPACK_IMPORTED_MODULE_9__["default"])();
   Object(_modules_sendmail__WEBPACK_IMPORTED_MODULE_11__["default"])();
   Object(_modules_getmenu__WEBPACK_IMPORTED_MODULE_13__["default"])();
+  Object(_modules_fixBlock__WEBPACK_IMPORTED_MODULE_14__["default"])();
 });
 
 /***/ }),

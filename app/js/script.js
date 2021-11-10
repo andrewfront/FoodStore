@@ -13,6 +13,7 @@ import Inputmask from "inputmask"
 import sendmail from './modules/sendmail'
 import { justvalidate } from "just-validate/dist/js/just-validate";
 import getmenu from './modules/getmenu'
+import fixBlock from './modules/fixBlock'
 window.addEventListener('DOMContentLoaded', (e) => {
     burger()
     lazy()
@@ -25,4 +26,5 @@ window.addEventListener('DOMContentLoaded', (e) => {
     headerfixed()
     sendmail()
     getmenu()
+    fixBlock()
 })

@@ -222,6 +222,7 @@
     margin: 20px 0;
     font-size: 28px;
     text-transform: uppercase;
+    background-color: transparent;
   }
 
   .header__nav-list {
@@ -240,7 +241,12 @@
 
 @media (max-width: 461px) {
   .header__logo {
-    display: none;
+    width: 100px;
+  }
+}
+@media (max-width: 461px) {
+  .header__logo {
+    width: 50px;
   }
 }
 

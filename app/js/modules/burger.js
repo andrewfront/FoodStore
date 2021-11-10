@@ -17,6 +17,7 @@ navBurgerBtn.forEach(btn => {
         e.preventDefault()
         navBurger.classList.remove('active')
         burgerBtn.classList.remove('open')
+        document.body.style.overflow = ''
     })
 })
 }

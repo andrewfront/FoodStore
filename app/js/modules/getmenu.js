@@ -106,10 +106,12 @@ class UI {
             if (inCart) {
                 button.innerText = 'In Cart'
                 button.disabled = true
+                button.style.backgroundColor = '#ff715b63'
             }
             button.addEventListener('click', (e) => {
                 e.target.innerText = 'In Cart'
                 button.disabled = true
+                button.style.backgroundColor = '#ff715b63'
                 //get product from products
                 let cartItem = {...Storage.getProduct(id), amount: 1}
                 cart = [...cart, cartItem]
@@ -137,8 +139,12 @@ class UI {
         cartCounter.innerText = itemsTotal
         if (cartCounter.innerText > 0) {
             cartText.style.display = 'none'
+            clearCart.disabled = false
+            clearCart.style.backgroundColor = '#000000'
         } else {
             cartText.style.display = 'block'
+            clearCart.disabled = true
+            clearCart.style.backgroundColor = '#0000004a'
         }
     }
     addCartItem(item) {
@@ -167,14 +173,53 @@ cartContent.innerHTML += `
     populateCart() {
         cart.forEach(item => this.addCartItem(item))
     }
+    animateCart() {
+        const menuItem = document.querySelectorAll('.menu__item')
+        menuItem.forEach(item => {
+            let getButton = item.querySelector('.menu__addtocart')
+            getButton.addEventListener('click', (e) => {
+                e.preventDefault()
+                let productImage = item.querySelector(".menu__img")
+                let productImageFly = productImage.cloneNode(true)
+                let imageFlyWidth = productImage.offsetWidth
+                let imageFlyHeight = productImage.offsetHeight
+                let imageFlyTop = productImage.getBoundingClientRect().top
+                let imageFlyLeft = productImage.getBoundingClientRect().left
+                productImageFly.setAttribute('class', 'flyImage')
+                productImageFly.style.cssText = `
+                width: ${imageFlyWidth}px;
+                height: ${imageFlyHeight}px;
+                left: ${imageFlyLeft}px;
+                top: ${imageFlyTop}px;
+                `
+                document.body.append(productImageFly)
+                const cartFlyLeft = cartCounter.getBoundingClientRect().left
+                const cartFlyTop = cartCounter.getBoundingClientRect().top
+                productImageFly.style.cssText = `
+                left: ${cartFlyLeft}px;
+                top: ${cartFlyTop}px;
+                width: 0px;
+                height: 0px;
+                opacity: 0;
+                `
+                productImageFly.addEventListener('transitionend', () => {
+                    if (getButton.disabled = true) {
+                        productImageFly.remove()
+                    }
+                })
+            })
+        })
+
+    }
     removeItem(id) {
         cart = cart.filter(item => item.id !==id)
         this.setCartValues(cart)
         Storage.saveCart(cart)
         let button = this.getSingleButton(id)
-        console.log(button);
         button.disabled = false
         button.innerText = 'Add to cart'
+        button.style.backgroundColor = '#ff715b'
+        document.body.style.overflow = ''
     }
     clearCart() {
         let cartItems = cart.map(item => item.id)
@@ -190,6 +235,41 @@ cartContent.innerHTML += `
         clearCart.addEventListener('click', (e) => {
             e.preventDefault()
             this.clearCart()
+            cartItself.classList.remove('showcart')
+        })
+        cartContent.addEventListener('click', (e) => {
+            if (e.target.classList.contains('cart__product-increase')) {
+                let addAmount = e.target
+                let id = addAmount.dataset.id
+                let tempItem = cart.find(item => item.id === id)
+                tempItem.amount = tempItem.amount + 1
+                Storage.saveCart(cart)
+                this.setCartValues(cart)
+                addAmount.previousElementSibling.innerText = tempItem.amount
+            } else if (e.target.classList.contains('cart__product-decrease')) {
+                let lowerAmount = e.target
+                let id = lowerAmount.dataset.id
+                let tempItem = cart.find(item => item.id === id)
+                tempItem.amount = tempItem.amount - 1
+                lowerAmount.nextElementSibling.innerText = tempItem.amount
+                if (tempItem.amount > 0) {
+                    Storage.saveCart(cart)
+                    this.setCartValues(cart)
+                    lowerAmount.nextElementSibling.innerText = tempItem.amount
+                } else {
+                    cartContent.removeChild(lowerAmount.parentElement.parentElement.parentElement)
+                    this.removeItem(id)
+                }
+            }
+            if (e.target.classList.contains('cart__product-remove')) {
+                let removeItem = e.target
+                let id = removeItem.dataset.id
+                cartContent.removeChild(removeItem.parentElement.parentElement)
+                this.removeItem(id)
+                if (cartContent.children.length <= 0) {
+                    cartItself.classList.remove('showcart')
+                }
+            }
         })
     }
 }
@@ -213,6 +293,7 @@ const products = new Products()
 ui.setupAPP()
 products.getProducts().then(products => {
     ui.displayProducts(products)
+    ui.animateCart(products)
     ui.filterProducts(products)
     ui.lazyLoadImages(products)
     Storage.saveProducts(products)
